@@ -1,0 +1,45 @@
+#!/usr/bin/env node
+'use strict'
+
+const path = require('path')
+const fs = require('fs')
+const chalk = require('chalk')
+const commander = require('commander')
+var program = new commander.Command()
+const transform = require('../lib/transform.js')
+const { exec } = require('child_process')
+
+program
+  .argument('<input>', '输入文件')
+  .option('-o --outdir [path]', 'the output directory name')
+  .option('-m --mode [string]', 'descibe input file transform area')
+  .parse(process.argv)
+
+if (!process.argv.length) {
+  program.help()
+} else {
+  let filepath = program.args[0]
+  const inputFilePath = path.resolve(process.cwd(), filepath)
+
+  // file check
+  if (!fs.existsSync(inputFilePath)) {
+    console.log(chalk.red('file does not exit'))
+    process.exit(0)
+  }
+
+  if (!/.vue/.test(filepath)) {
+    console.log(chalk.red('file is need to end with .vue'))
+    process.exit(0)
+  }
+  const options = {
+    filepath: filepath,
+    outdir: program.opts().outdir,
+  }
+  const distDir = path.join(process.cwd(), 'dist')
+  console.log(distDir);
+  if (!fs.existsSync(distDir)) {
+    fs.mkdirSync(distDir)
+  }
+  fs.writeFileSync(`${distDir}/${program.args[0]}`, transform(options))
+
+}

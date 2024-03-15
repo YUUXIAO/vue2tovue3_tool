@@ -1,0 +1,27 @@
+{
+  "name": "vue2t3",
+  "version": "1.0.3",
+  "description": "transform vue2 to vue3",
+  "main": "./lib/index",
+  "bin": {
+    "vue2to3": "./lib/index"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "chalk": "3.0.0",
+    "commander": "7.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "vue2to3 test.vue -o dist"
+  },
+  "keywords": [
+    "vue",
+    "vue2",
+    "vue3"
+  ],
+  "author": "yabby",
+  "license": "ISC"
+}
